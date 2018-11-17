@@ -6,7 +6,7 @@
 from BPNeuralNetworkTool import sigmoid
 from BPNeuralNetworkTool import sigmoid_prime
 import numpy as np
-
+import time
 
 class NeuralNetwork:
     def __init__(self, shapes):
@@ -23,6 +23,8 @@ class NeuralNetwork:
             # Good code style from Michael Nielsen !!!
             np.random.randn(y, x) for (x, y) in zip(shapes[:-1], shapes[1:])
         ]
+
+        print(self.shapes)
 
     def feedward(self, input):
         if len(input) != self.shapes[0]:
@@ -46,24 +48,29 @@ class NeuralNetwork:
         nabla_w = [np.zeros(w.shape) for w in self.weights]
 
         activation = x
-        activations = [x]
+        activations = []
         zs = []
 
         # calc the activation result
+        print("biases size = ",len(self.biases))
         for b, w in zip(self.biases, self.weights):
             z = np.dot(w, activation) + b
             zs.append(z)
             activation = sigmoid(z)
+            print("z = ",z)
             activations.append(activation)
 
-        activations = np.array(activations)
+        print("activations = ", activations)
 
         delta = loss(activations[-1], y) * sigmoid_prime(zs[-1])
+        print("activation : ", activations[-2].shape)
+        time.sleep(1)
         nabla_b[-1] = delta
         # transpose() means X.T
-        nabla_w[-1] = np.dot(delta , activation[-2].transpose())
+        nabla_w[-1] = np.dot(delta, activation[-2].transpose())
 
-        for l in range(2,self.layers):
+        print(activations)
+        for l in range(2, self.layers):
             z = zs[-l]
             sp = sigmoid_prime(z)
             delta = np.dot(self.weights[-l + 1].transpose(), delta) * sp
@@ -72,12 +79,14 @@ class NeuralNetwork:
 
         return (nabla_b, nabla_w)
 
-    def updateStep(self, data : list, eta : float, loss):
+    def updateStep(self, data: list, eta: float, loss):
+        print("in update step function")
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
 
-        for x,y in data:
-            delta_nabla_b, delta_nabla_w = self.backPropagate(x, y,loss)
+        for x, y in data:
+            print("x ,y = ", x, ' ', y)
+            delta_nabla_b, delta_nabla_w = self.backPropagate(x, y, loss)
             nabla_b = [nb + dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
             nabla_w = [nw + dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
 
@@ -106,7 +115,7 @@ class NeuralNetwork:
 
 
 def main():
-    nn = NeuralNetwork([2, 3, 4])
+    nn = NeuralNetwork([4, 5, 3])
 
 
 if __name__ == '__main__':
