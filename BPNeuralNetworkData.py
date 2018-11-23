@@ -22,8 +22,16 @@ def getIrisData():
                 yLabel[sList[-1]] = len(yLabel.keys())
                 rLabel[yLabel[sList[-1]]] = sList[-1]
 
+        y_cnt = len(yLabel.keys())
+
+        for i in range(len(lines)):
+            sList = str(lines[i]).strip().split(',')
+            ys = [0 for i in range(y_cnt)]
+            index = yLabel[sList[-1]]
+            ys[index] = 1
             xs = [float(s) for s in sList[:-1]]
-            res.append((xs, yLabel[sList[-1]]))
+
+            res.append((xs, ys))
 
     # print(res)
     return res, yLabel, rLabel
@@ -55,6 +63,10 @@ def main():
     print(res)
     print(y)
     print(r)
+
+    ll = range(2, 3)
+    for i in ll:
+        print(i)
 
 
 if __name__ == '__main__':

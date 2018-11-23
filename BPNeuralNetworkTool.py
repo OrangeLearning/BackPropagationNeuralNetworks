@@ -30,7 +30,7 @@ def mini_batch(train_data, mini_batch_size, shuffle=True):
 
 
 def squaredLoss(y0, y):
-    return (y - y0) ** 2
+    return y0 - y
 
 
 def main():

@@ -30,8 +30,9 @@ def BPNeuralNetworkTrainProcess(
 
 
 def BPNeuralNetworkTestProcess(nn: NeuralNetwork, test_data):
-    res, cnt = nn.evaluate(test_data)
+    res ,cnt = nn.evaluate(test_data)
 
     print("correct rate: ",float(cnt / len(test_data)))
-
+    # for test_x , test_y in test_data:
+    print(res)
     return res

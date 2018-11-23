@@ -15,7 +15,7 @@ def main():
 
     ttr = 0.8  # train_test_rate
     train_data, test_data = divide_train_test(data, ttr)
-    nn = BPNeuralNetworkTrainProcess(data, [4, 5, 1], SGD, 15, 8, 0.1, squaredLoss)
+    nn = BPNeuralNetworkTrainProcess(data, [4, 6, 3], SGD, 20, 8, 0.1, squaredLoss)
     BPNeuralNetworkTestProcess(nn, test_data)
 
 
